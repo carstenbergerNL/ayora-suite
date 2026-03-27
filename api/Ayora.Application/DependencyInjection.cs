@@ -1,5 +1,5 @@
-using Ayora.Application.Auth.Interfaces;
-using Ayora.Application.Auth.Services;
+using Ayora.Application.Interfaces.Auth;
+using Ayora.Application.Services.Auth;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ayora.Application;

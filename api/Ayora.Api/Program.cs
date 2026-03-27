@@ -1,6 +1,6 @@
 using System.Text;
 using Ayora.Application;
-using Ayora.Application.Auth.Options;
+using Ayora.Application.Options.Auth;
 using Ayora.Infrastructure;
 using Ayora.Shared;
 using Ayora.Shared.Modularity;

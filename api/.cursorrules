@@ -4,7 +4,14 @@ Always update /sql/main.sql when schema changes
 Always update /json files when DTO changes
 Always keep README.md files up to date (root, /api, /sql, /json)
 Always keep modules extensible
+Controllers must always reside in Ayora.Api/Controllers
 Never place business logic in controllers
 Always use services and repositories
 Always use async methods
 Always use DTOs for API boundaries
+Always follow consistent folder conventions:
+- Api: Controllers/, Middleware/, Swagger/ (and feature folders must not contain controllers)
+- Application: DTOs/, Interfaces/, Services/, Options/
+- Infrastructure: Repositories/, Data/, Security/
+- Domain: Entities (or Models)/, Interfaces/, Enums/
+Always keep folder structure aligned with these conventions (move files + update namespaces/usings when needed)

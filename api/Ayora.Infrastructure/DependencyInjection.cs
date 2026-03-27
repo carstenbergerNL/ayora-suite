@@ -1,7 +1,7 @@
-using Ayora.Application.Auth.Interfaces;
+using Ayora.Application.Interfaces.Auth;
 using Ayora.Domain.Interfaces.Auth;
-using Ayora.Infrastructure.Auth.Repositories;
-using Ayora.Infrastructure.Auth.Security;
+using Ayora.Infrastructure.Repositories.Auth;
+using Ayora.Infrastructure.Security.Auth;
 using Ayora.Infrastructure.Data.Abstractions;
 using Ayora.Infrastructure.Data.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
