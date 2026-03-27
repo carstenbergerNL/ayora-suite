@@ -1,4 +1,5 @@
 using System.Net;
+using System.Data.Common;
 using Ayora.Shared.Contracts.Api;
 using Ayora.Shared.Errors;
 using Serilog;
@@ -17,6 +18,12 @@ public sealed class ExceptionHandlingMiddleware : IMiddleware
         {
             Log.Warning(ex, "Handled application error {Code}", ex.Code);
             await WriteAsync(context, ex.StatusCode, ApiResponse<object>.Fail(ex.Code, ex.Message));
+        }
+        catch (DbException ex)
+        {
+            Log.Error(ex, "Database exception");
+            await WriteAsync(context, (int)HttpStatusCode.ServiceUnavailable,
+                ApiResponse<object>.Fail("db.unavailable", "Database is unavailable."));
         }
         catch (Exception ex)
         {

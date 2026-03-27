@@ -100,6 +100,38 @@ builder.Services
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromSeconds(30)
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var authorization = context.Request.Headers.Authorization.ToString().Trim();
+                if (string.IsNullOrWhiteSpace(authorization))
+                {
+                    return Task.CompletedTask;
+                }
+
+                const string bearerPrefix = "Bearer ";
+
+                if (authorization.StartsWith(bearerPrefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    var token = authorization[bearerPrefix.Length..].Trim();
+
+                    // Be tolerant for malformed values like: "Bearer Bearer <token>"
+                    while (token.StartsWith(bearerPrefix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        token = token[bearerPrefix.Length..].Trim();
+                    }
+
+                    context.Token = token;
+                    return Task.CompletedTask;
+                }
+
+                // Also accept raw token values for tools that only send the JWT string.
+                context.Token = authorization;
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddAuthorization();
@@ -115,9 +147,8 @@ app.UseMiddleware<Ayora.Api.Middleware.ExceptionHandlingMiddleware>();
 if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 
 app.UseCors("DefaultCors");
 
